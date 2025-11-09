@@ -5,7 +5,7 @@
       <ng-container matColumnDef="loanAmount">
         <th mat-header-cell *matHeaderCellDef>Loan Amount</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.loanAmount | currency }}
+          {{ element.amount | currency }}
         </td>
       </ng-container>
 
@@ -18,7 +18,7 @@
 
       <ng-container matColumnDef="applicant">
         <th mat-header-cell *matHeaderCellDef>Applicant</th>
-        <td mat-cell *matCellDef="let element">{{ element.applicant }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.applicantName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
