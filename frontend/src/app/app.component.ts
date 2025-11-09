@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { LoansService } from './services/loans.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,19 +14,8 @@ import { LoansService } from './services/loans.service';
 })
 export class AppComponent implements OnInit {
   private service = inject(LoansService);
-  loans: any[] = []
-
-  ngOnInit() {
-    this.service.getLoans().subscribe({
-      next: (data: any) => {
-        this.loans = data;
-        console.log('Data loaded:', this.loans);
-      },
-      error: (error) => {
-        console.error('Error to get data:', error);
-      }
-    });
-  }
+  private authService = inject(AuthService);
+  loans: any[] = [];
 
   displayedColumns: string[] = [
     'loanAmount',
@@ -33,4 +23,26 @@ export class AppComponent implements OnInit {
     'applicant',
     'status',
   ];
+
+  ngOnInit() {
+    this.authService.getToken().subscribe({
+      next: () => {
+        this.loadLoans();
+      },
+      error: (error) => {
+        console.error('Error getting token:', error);
+      }
+    });
+  }
+
+  private loadLoans() {
+    this.service.getLoans().subscribe({
+      next: (data: any) => {
+        this.loans = data;
+      },
+      error: (error) => {
+        console.error('Error to get data:', error);
+      }
+    });
+  }
 }

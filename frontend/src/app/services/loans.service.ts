@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoansService {
-  private apiUrl = "http://localhost:56702/";
+  private apiUrl = environment.apiUrl;
+  
   constructor(private http: HttpClient) { }
 
   getLoans() {
@@ -19,5 +21,4 @@ export class LoansService {
   createLoan(loanData: any) {
     return this.http.post(`${this.apiUrl}loans`, loanData);
   }
-
 }

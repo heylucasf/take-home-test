@@ -3,18 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fundo.Applications.WebApi", "Fundo.Applications.WebApi\Fundo.Applications.WebApi.csproj", "{74E9501B-3D70-4E87-8D1D-874F54DBF3F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.WebApi", "LMS.WebApi\LMS.WebApi.csproj", "{74E9501B-3D70-4E87-8D1D-874F54DBF3F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fundo.Services.Tests", "Fundo.Services.Tests\Fundo.Services.Tests.csproj", "{2AF827DF-3DE1-4317-8B8E-C0CEED845186}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Services.Tests", "LMS.Services.Tests\LMS.Services.Tests.csproj", "{2AF827DF-3DE1-4317-8B8E-C0CEED845186}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fundo.Infrastructure", "Fundo.Infrastructure\Fundo.Infrastructure.csproj", "{2BDFCB97-5DC8-43E1-BE13-11177E1DF403}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Infrastructure", "LMS.Infrastructure\LMS.Infrastructure.csproj", "{2BDFCB97-5DC8-43E1-BE13-11177E1DF403}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5A8E9F5E-E0F1-4063-82F5-B56BE8936895} = {5A8E9F5E-E0F1-4063-82F5-B56BE8936895}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fundo.Domain", "Fundo.Domain\Fundo.Domain.csproj", "{5A8E9F5E-E0F1-4063-82F5-B56BE8936895}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Domain", "LMS.Domain\LMS.Domain.csproj", "{5A8E9F5E-E0F1-4063-82F5-B56BE8936895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fundo.Application", "Fundo.Application\Fundo.Application.csproj", "{864A840F-4CA5-4E38-B46B-80B280FC932A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Application", "LMS.Application\LMS.Application.csproj", "{864A840F-4CA5-4E38-B46B-80B280FC932A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
