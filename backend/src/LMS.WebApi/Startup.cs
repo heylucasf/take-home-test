@@ -47,7 +47,7 @@ namespace LMS.Applications.WebApi
             })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false; // Para desenvolvimento
+                options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -125,7 +125,7 @@ namespace LMS.Applications.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LMS API v1");
-                c.RoutePrefix = string.Empty; 
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseRouting();

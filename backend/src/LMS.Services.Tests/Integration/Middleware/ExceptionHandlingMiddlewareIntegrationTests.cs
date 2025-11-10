@@ -107,7 +107,6 @@ namespace LMS.Services.Tests.Integration.Middleware
 
             var client = factoryWithError.CreateClient();
             
-            // Adiciona token JWT
             var token = JwtTokenHelper.GenerateTestToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -168,7 +167,6 @@ namespace LMS.Services.Tests.Integration.Middleware
 
             var client = factory.CreateClient();
             
-            // Adiciona token JWT para autenticação
             var token = JwtTokenHelper.GenerateTestToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -244,7 +242,6 @@ namespace LMS.Services.Tests.Integration.Middleware
 
             var client = factoryWithError.CreateClient();
             
-            // Adiciona token JWT
             var token = JwtTokenHelper.GenerateTestToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -311,7 +308,6 @@ namespace LMS.Services.Tests.Integration.Middleware
 
             var client = factory.CreateClient();
             
-            // NÃO adiciona token - deve retornar 401
             var response = await client.GetAsync("/loans");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

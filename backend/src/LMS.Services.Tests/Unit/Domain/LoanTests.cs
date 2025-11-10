@@ -10,14 +10,11 @@ namespace LMS.Services.Tests.Unit.Domain
         [Fact]
         public void Constructor_WithValidData_ShouldCreateLoan()
         {
-            // Arrange
             var amount = 1500m;
             var applicantName = "Maria Silva";
 
-            // Act
             var loan = new Loan(amount, applicantName);
 
-            // Assert
             loan.Should().NotBeNull();
             loan.Id.Should().NotBeEmpty();
             loan.Amount.Should().Be(amount);
@@ -34,13 +31,10 @@ namespace LMS.Services.Tests.Unit.Domain
         [InlineData(-0.01)]
         public void Constructor_WithInvalidAmount_ShouldThrowArgumentException(decimal invalidAmount)
         {
-            // Arrange
             var applicantName = "Maria Silva";
 
-            // Act
             Action act = () => new Loan(invalidAmount, applicantName);
 
-            // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Amount must be greater than zero.*");
         }

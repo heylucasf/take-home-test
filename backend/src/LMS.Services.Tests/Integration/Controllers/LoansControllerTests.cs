@@ -82,7 +82,6 @@ namespace LMS.Services.Tests.Integration.Controllers
                 });
             }).CreateClient();
 
-            // Adiciona o token JWT ao cliente
             var token = JwtTokenHelper.GenerateTestToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -114,7 +113,6 @@ namespace LMS.Services.Tests.Integration.Controllers
         [Fact]
         public async Task POST_CreateLoan_WithoutAuthentication_ShouldReturn401Unauthorized()
         {
-            // Cliente sem token
             var client = _factory.CreateClient();
             var request = new CreateLoanRequest
             {

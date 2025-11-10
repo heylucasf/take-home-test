@@ -113,7 +113,7 @@ namespace LMS.Services.Tests.Integration.Controllers
             var json1 = await response1.Content.ReadAsStringAsync();
             var tokenResponse1 = JsonSerializer.Deserialize<TokenResponse>(json1, _jsonOptions);
 
-            await Task.Delay(100); // Pequeno delay para garantir timestamp diferente
+            await Task.Delay(100);
 
             var response2 = await client.GetAsync("/auth/token");
             var json2 = await response2.Content.ReadAsStringAsync();
