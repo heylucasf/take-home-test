@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -57,7 +56,8 @@ namespace LMS.Services.Tests.Integration.Middleware
                 builder.ConfigureTestServices(services =>
                 {
                     var dbDescriptor = services.Where(
-                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)).ToList();
+                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>) ||
+                             d.ServiceType == typeof(ApplicationDbContext)).ToList();
 
                     foreach (var descriptor in dbDescriptor)
                     {
@@ -127,6 +127,8 @@ namespace LMS.Services.Tests.Integration.Middleware
 
             var factory = _factory.WithWebHostBuilder(builder =>
             {
+                builder.UseEnvironment("Test");
+
                 builder.ConfigureAppConfiguration((context, config) =>
                 {
                     config.AddInMemoryCollection(new Dictionary<string, string>
@@ -140,32 +142,49 @@ namespace LMS.Services.Tests.Integration.Middleware
 
                 builder.ConfigureTestServices(services =>
                 {
-                    var dbDescriptors = services.Where(
-                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)).ToList();
+                    // Remoção abrangente de todos os registros do ApplicationDbContext
+                    var toRemove = services
+                        .Where(d =>
+                            d.ServiceType == typeof(ApplicationDbContext) ||
+                            d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>) ||
+                            (d.ServiceType.IsGenericType &&
+                             d.ServiceType.GetGenericTypeDefinition() == typeof(DbContextOptions<>) &&
+                             d.ServiceType.GenericTypeArguments[0] == typeof(ApplicationDbContext)))
+                        .ToList();
 
-                    foreach (var descriptor in dbDescriptors)
-                    {
-                        services.Remove(descriptor);
-                    }
+                    foreach (var d in toRemove)
+                        services.Remove(d);
 
+                    // Remove possíveis registros extras (pool/factory) vinculados ao ApplicationDbContext
+                    var extra = services.Where(d =>
+                        d.ServiceType.FullName != null &&
+                        d.ServiceType.FullName.Contains("ApplicationDbContext")).ToList();
+
+                    foreach (var d in extra)
+                        services.Remove(d);
+
+                    // Reconfigura logger
+                    var loggerDescriptors = services.Where(d => d.ServiceType == typeof(Serilog.ILogger)).ToList();
+                    foreach (var d in loggerDescriptors)
+                        services.Remove(d);
+                    services.AddSingleton<Serilog.ILogger>(Log.Logger);
+
+                    // Usa somente InMemory
                     services.AddDbContext<ApplicationDbContext>(options =>
                     {
-                        options.UseInMemoryDatabase($"MiddlewareNormalTestDb_{Guid.NewGuid()}");
+                        options.UseInMemoryDatabase($"MiddlewareNormalTestDb_{Guid.NewGuid():N}");
                     });
-
-                    var loggerDescriptors = services.Where(
-                        d => d.ServiceType == typeof(Serilog.ILogger)).ToList();
-
-                    foreach (var descriptor in loggerDescriptors)
-                    {
-                        services.Remove(descriptor);
-                    }
-
-                    services.AddSingleton<Serilog.ILogger>(Log.Logger);
                 });
             });
 
             var client = factory.CreateClient();
+
+            // Garante criação do banco com o provider definitivo
+            using (var scope = factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.EnsureCreated();
+            }
             
             var token = JwtTokenHelper.GenerateTestToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -200,7 +219,8 @@ namespace LMS.Services.Tests.Integration.Middleware
                 builder.ConfigureTestServices(services =>
                 {
                     var dbDescriptor = services.Where(
-                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)).ToList();
+                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>) ||
+                             d.ServiceType == typeof(ApplicationDbContext)).ToList();
 
                     foreach (var descriptor in dbDescriptor)
                     {
@@ -282,7 +302,8 @@ namespace LMS.Services.Tests.Integration.Middleware
                 builder.ConfigureTestServices(services =>
                 {
                     var dbDescriptors = services.Where(
-                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)).ToList();
+                        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>) ||
+                             d.ServiceType == typeof(ApplicationDbContext)).ToList();
 
                     foreach (var descriptor in dbDescriptors)
                     {

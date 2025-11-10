@@ -41,108 +41,59 @@ namespace LMS.Infrastructure.Data.Configurations
 
         private void SeedData(EntityTypeBuilder<Loan> builder)
         {
-            var now = new DateTime(2024, 1, 15, 10, 0, 0, DateTimeKind.Utc);
+            var createdDate = new DateTime(2024, 10, 1, 0, 0, 0, DateTimeKind.Utc);
+            var updatedDate = new DateTime(2024, 10, 15, 0, 0, 0, DateTimeKind.Utc);
 
             builder.HasData(
                 new
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     Amount = 1500.00m,
                     CurrentBalance = 1500.00m,
                     ApplicantName = "Maria Silva",
                     Status = LoanStatus.Active,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = (DateTime?)null
+                    CreatedAt = createdDate,
+                    UpdatedAt = updatedDate
                 },
                 new
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
                     Amount = 5000.00m,
                     CurrentBalance = 2500.00m,
                     ApplicantName = "João Santos",
                     Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-15),
-                    UpdatedAt = (DateTime?)now.AddDays(-5)
+                    CreatedAt = createdDate,
+                    UpdatedAt = updatedDate
                 },
                 new
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
                     Amount = 3000.00m,
                     CurrentBalance = 0.00m,
                     ApplicantName = "Ana Costa",
                     Status = LoanStatus.Paid,
-                    CreatedAt = now.AddDays(-30),
-                    UpdatedAt = (DateTime?)now.AddDays(-2)
+                    CreatedAt = createdDate,
+                    UpdatedAt = updatedDate
                 },
                 new
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
                     Amount = 10000.00m,
                     CurrentBalance = 8500.00m,
                     ApplicantName = "Pedro Oliveira",
                     Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-20),
-                    UpdatedAt = (DateTime?)now.AddDays(-10)
+                    CreatedAt = createdDate,
+                    UpdatedAt = updatedDate
                 },
                 new
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("55555555-5555-5555-5555-555555555555"),
                     Amount = 800.00m,
                     CurrentBalance = 500.00m,
                     ApplicantName = "Carla Ferreira",
                     Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-7),
-                    UpdatedAt = (DateTime?)now.AddDays(-3)
-                },
-                new
-                {
-                    Id = Guid.NewGuid(),
-                    Amount = 7500.00m,
-                    CurrentBalance = 7500.00m,
-                    ApplicantName = "Ricardo Alves",
-                    Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-5),
-                    UpdatedAt = (DateTime?)null
-                },
-                new
-                {
-                    Id = Guid.NewGuid(),
-                    Amount = 2000.00m,
-                    CurrentBalance = 0.00m,
-                    ApplicantName = "Juliana Martins",
-                    Status = LoanStatus.Paid,
-                    CreatedAt = now.AddDays(-45),
-                    UpdatedAt = (DateTime?)now.AddDays(-1)
-                },
-                new
-                {
-                    Id = Guid.NewGuid(),
-                    Amount = 4200.00m,
-                    CurrentBalance = 3000.00m,
-                    ApplicantName = "Fernando Lima",
-                    Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-12),
-                    UpdatedAt = (DateTime?)now.AddDays(-6)
-                },
-                new
-                {
-                    Id = Guid.NewGuid(),
-                    Amount = 1200.00m,
-                    CurrentBalance = 1200.00m,
-                    ApplicantName = "Beatriz Sousa",
-                    Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-3),
-                    UpdatedAt = (DateTime?)null
-                },
-                new
-                {
-                    Id = Guid.NewGuid(),
-                    Amount = 6000.00m,
-                    CurrentBalance = 2400.00m,
-                    ApplicantName = "Lucas Mendes",
-                    Status = LoanStatus.Active,
-                    CreatedAt = now.AddDays(-25),
-                    UpdatedAt = (DateTime?)now.AddDays(-8)
+                    CreatedAt = createdDate,
+                    UpdatedAt = updatedDate
                 }
             );
         }

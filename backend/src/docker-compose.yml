@@ -1,6 +1,41 @@
 services:
   lms.webapi:
-    image: ${DOCKER_REGISTRY-}lmswebapi
     build:
       context: .
       dockerfile: LMS.WebApi/Dockerfile
+    image: lms-api
+    container_name: lms-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LMS;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=true;
+    ports:
+      - "5000:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - lms-network
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - lms-network
+    restart: unless-stopped
+
+volumes:
+  sql_data:
+
+networks:
+  lms-network:
+    driver: bridge
