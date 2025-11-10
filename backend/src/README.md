@@ -1,26 +1,41 @@
-## Running the Backend
+# LMS - Backend
+.NET 8 API designed for Loan Management.
 
-To build the backend, navigate to the `src` folder and run:  
+## Project:
+- **.NET 8**
+- **Clean Architecture**
+- **Entity Framework**
+- **Serilog**
+- **Docker**
+- **Swagger**
+
+## LMS Backend - How to build and run
+
+The application runs with Docker, so you just need to execute (in `src` folder) the command:  
 ```sh
-dotnet build
+docker compose up -d
 ```
 
-To run all tests:  
+## LMS Migrations
+To generate the migrations, execute the following inside the `src` folder:
 ```sh
-dotnet test
+dotnet ef migrations add InitialCreate --project LMS.Infrastructure --startup-project LMS.WebApi
+
+dotnet ef database update --project LMS.Infrastructure --startup-project LMS.WebApi
 ```
 
-To start the main API:  
+## Tests 
+To run all tests with Coverage execute in `src` folder:  
 ```sh
-cd Fundo.Applications.WebApi  
-dotnet run
+dotnet test LMS.Services.Tests --collect:"XPlat Code Coverage" --results-directory LMS.Services.Tests/TestResults --settings LMS.Services.Tests/coverlet.runsettings
+```
+The results will be generated inside `LMS.Services.Tests/TestResults`
+
+To run without Coverage execute:
+```sh
+dotnet test LMS.Services.Tests
 ```
 
-The following endpoint should return **200 OK**:  
-```http
-GET -> https://localhost:5001/loan
-```
-
-## Notes  
-
-Feel free to modify the code as needed, but try to **respect and extend the current architecture**, as this is intended to be a replica of the Fundo codebase.
+## Endpoints
+- API: http://localhost:5000
+- Swagger: http://localhost:5000/swagger
