@@ -1,17 +1,6 @@
-version: '3.9'
-
 services:
-  loanmanagement-api:
+  lms.webapi:
+    image: ${DOCKER_REGISTRY-}lmswebapi
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: lms-api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=LMS;User Id=user;Password=1234;TrustServerCertificate=true;
-    ports:
-      - "5000:8080"
-    volumes:
-      - ./logs:/app/logs
-    restart: unless-stopped
+      dockerfile: LMS.WebApi/Dockerfile
