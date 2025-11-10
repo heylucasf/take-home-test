@@ -55,7 +55,6 @@ namespace LMS.Services.Tests.Integration.Controllers
 
                 builder.ConfigureTestServices(services =>
                 {
-                    // Remoção mais ampla de contextos
                     var toRemove = services
                         .Where(d =>
                             d.ServiceType == typeof(ApplicationDbContext) ||
@@ -68,7 +67,6 @@ namespace LMS.Services.Tests.Integration.Controllers
                     foreach (var d in toRemove)
                         services.Remove(d);
 
-                    // Se houver IDbContextFactory / Pool
                     var extra = services.Where(d =>
                         d.ServiceType.FullName != null &&
                         d.ServiceType.FullName.Contains("ApplicationDbContext")).ToList();
@@ -76,13 +74,11 @@ namespace LMS.Services.Tests.Integration.Controllers
                     foreach (var d in extra)
                         services.Remove(d);
 
-                    // Logger
                     var loggerDescriptors = services.Where(d => d.ServiceType == typeof(Serilog.ILogger)).ToList();
                     foreach (var d in loggerDescriptors)
                         services.Remove(d);
                     services.AddSingleton<Serilog.ILogger>(Log.Logger);
 
-                    // Registra somente InMemory
                     services.AddDbContext<ApplicationDbContext>(options =>
                     {
                         options.UseInMemoryDatabase(databaseName);
@@ -92,7 +88,6 @@ namespace LMS.Services.Tests.Integration.Controllers
 
             var client = factory.CreateClient();
 
-            // EnsureCreated só agora (service provider definitivo)
             using (var scope = factory.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -147,7 +142,6 @@ namespace LMS.Services.Tests.Integration.Controllers
             loans!.Length.Should().BeGreaterThanOrEqualTo(2);
         }
 
-        // Demais testes mantidos (sem alteração)
         [Fact]
         public async Task GET_GetLoanById_WhenExists_ShouldReturn200()
         {

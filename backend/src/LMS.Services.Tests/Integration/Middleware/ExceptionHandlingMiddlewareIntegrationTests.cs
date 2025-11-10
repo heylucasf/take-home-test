@@ -142,7 +142,6 @@ namespace LMS.Services.Tests.Integration.Middleware
 
                 builder.ConfigureTestServices(services =>
                 {
-                    // Remoção abrangente de todos os registros do ApplicationDbContext
                     var toRemove = services
                         .Where(d =>
                             d.ServiceType == typeof(ApplicationDbContext) ||
@@ -155,7 +154,6 @@ namespace LMS.Services.Tests.Integration.Middleware
                     foreach (var d in toRemove)
                         services.Remove(d);
 
-                    // Remove possíveis registros extras (pool/factory) vinculados ao ApplicationDbContext
                     var extra = services.Where(d =>
                         d.ServiceType.FullName != null &&
                         d.ServiceType.FullName.Contains("ApplicationDbContext")).ToList();
@@ -163,13 +161,11 @@ namespace LMS.Services.Tests.Integration.Middleware
                     foreach (var d in extra)
                         services.Remove(d);
 
-                    // Reconfigura logger
                     var loggerDescriptors = services.Where(d => d.ServiceType == typeof(Serilog.ILogger)).ToList();
                     foreach (var d in loggerDescriptors)
                         services.Remove(d);
                     services.AddSingleton<Serilog.ILogger>(Log.Logger);
 
-                    // Usa somente InMemory
                     services.AddDbContext<ApplicationDbContext>(options =>
                     {
                         options.UseInMemoryDatabase($"MiddlewareNormalTestDb_{Guid.NewGuid():N}");
@@ -179,7 +175,6 @@ namespace LMS.Services.Tests.Integration.Middleware
 
             var client = factory.CreateClient();
 
-            // Garante criação do banco com o provider definitivo
             using (var scope = factory.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
